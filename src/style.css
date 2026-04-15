@@ -1,3 +1,231 @@
+*{
+    box-sizing: border-box;
+}
+
+:root{
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #1f2937;
+    background: #f7f9fb;
+}
+
 body{
-    color: black;
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #eaf2fb 0%, #f7f9fb 60%, #ffffff 100%);
+}
+
+.hero{
+    background: linear-gradient(135deg, #1f4f91, #3b82f6);
+    color: white;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+}
+
+.hero__text h1{
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.hero__text p{
+    margin: 1rem auto 0;
+    max-width: 720px;
+    line-height: 1.7;
+    opacity: 0.9;
+}
+
+.page-layout{
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.calendar-panel,
+.events-panel{
+    background: white;
+    border-radius: 24px;
+    padding: 1.5rem;
+    box-shadow: 0 22px 60px rgba(15, 23, 42, 0.08);
+}
+
+.month-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.month-header button{
+    width: 48px;
+    height: 48px;
+    border: none;
+    border-radius: 16px;
+    background: #1f4f91;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.month-name,
+.year-number{
+    margin: 0;
+    text-align: center;
+}
+
+.month-name{
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.year-number{
+    color: #475569;
+}
+
+.weekdays{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 0.75rem;
+}
+
+.calendar-grid{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.6rem;
+}
+
+.day-cell{
+    min-height: 100px;
+    background: #f8fafc;
+    border-radius: 18px;
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.day-cell:hover{
+    transform: translateY(-2px);
+    border-color: #c7d2fe;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.12);
+}
+
+.day-cell.outside{
+    opacity: 0.45;
+    background: transparent;
+    cursor: default;
+}
+
+.day-number{
+    font-weight: 700;
+}
+
+.event-marker{
+    margin-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.event-dot{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1f4f91;
+}
+
+.day-cell.active{
+    background: #dbeafe;
+    border-color: #93c5fd;
+}
+
+.event-list{
+    margin-top: 1rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.event-card{
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 18px;
+    border-left: 4px solid #1f4f91;
+}
+
+.event-card h3{
+    margin: 0 0 0.35rem;
+    font-size: 1.05rem;
+}
+
+.event-card p{
+    margin: 0.4rem 0 0;
+    color: #475569;
+    line-height: 1.6;
+}
+
+.timeline-section{
+    max-width: 1180px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem 1.5rem;
+}
+
+.timeline-section h2{
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.timeline-cards{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.timeline-cards article{
+    padding: 1.25rem;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+.timeline-cards h3{
+    margin-top: 0;
+}
+
+@media (max-width: 900px){
+    .page-layout{
+        grid-template-columns: 1fr;
+    }
+
+    .timeline-cards{
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px){
+    .hero{
+        padding: 2rem 1rem;
+    }
+
+    .month-header{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .month-header button{
+        width: 100%;
+    }
+
+    .weekdays,
+    .calendar-grid{
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+    }
 }

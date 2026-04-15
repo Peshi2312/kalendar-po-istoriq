@@ -1,14 +1,68 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
-    <script src="./script.js"></script>
-    <js-module src="./script.js"></js-module>
-    <title>Document</title>
+    <title>Календар по история</title>
 </head>
 <body>
-    
+    <header class="hero">
+        <div class="hero__text">
+            <h1>Календар на българската история</h1>
+            <p>Разгледай важните дати и събития от българската история в един интерактивен календар.</p>
+        </div>
+    </header>
+
+    <main class="page-layout">
+        <section class="calendar-panel">
+            <div class="month-header">
+                <button id="prevMonth" aria-label="Предишен месец">‹</button>
+                <div>
+                    <p class="month-name" id="monthName"></p>
+                    <p class="year-number" id="yearNumber"></p>
+                </div>
+                <button id="nextMonth" aria-label="Следващ месец">›</button>
+            </div>
+            <div class="weekdays">
+                <div>Пон</div>
+                <div>Вт</div>
+                <div>Ср</div>
+                <div>Чт</div>
+                <div>Пет</div>
+                <div>Съб</div>
+                <div>Нед</div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+        </section>
+
+        <aside class="events-panel">
+            <div class="overview-card">
+                <h2>Събития</h2>
+                <p>Избери дата в календара, за да видиш детайлите за българските исторически събития.</p>
+            </div>
+            <div class="event-list" id="eventList"></div>
+        </aside>
+    </main>
+
+    <section class="timeline-section">
+        <h2>Основни теми</h2>
+        <div class="timeline-cards">
+            <article>
+                <h3>Възраждане</h3>
+                <p>Дати като 3 март 1878 и 16 април 1876 припомнят пътя към освобождението и националното пробуждане.</p>
+            </article>
+            <article>
+                <h3>Средновековие</h3>
+                <p>Аспарух, Симеон Велики и Иван Асен II са ключови образи от Златния век.</p>
+            </article>
+            <article>
+                <h3>Съвременност</h3>
+                <p>През 1990 и 2007 г. България стана демократична държава и част от Европейския съюз.</p>
+            </article>
+        </div>
+    </section>
+
+    <script src="./script.js"></script>
 </body>
 </html>
