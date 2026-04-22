@@ -18,9 +18,14 @@
         <section class="calendar-panel">
             <div class="month-header">
                 <button id="prevMonth" aria-label="Предишен месец">‹</button>
-                <div>
+                <div class="date-header">
                     <p class="month-name" id="monthName"></p>
-                    <p class="year-number" id="yearNumber"></p>
+                    <div class="year-controls">
+                        <button id="prevYear" aria-label="Предходна година">‹‹</button>
+                        <label class="sr-only" for="yearSelect">Година</label>
+                        <select id="yearSelect" aria-label="Избери година"></select>
+                        <button id="nextYear" aria-label="Следваща година">››</button>
+                    </div>
                 </div>
                 <button id="nextMonth" aria-label="Следващ месец">›</button>
             </div>
