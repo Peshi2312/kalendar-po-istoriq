@@ -1,208 +1,147 @@
-const monthNames = [
-    "Януари", "Февруари", "Март", "Април", "Май", "Юни",
-    "Юли", "Август", "Септември", "Октомври", "Ноември", "Декември"
-];
-
 const calendarGrid = document.getElementById("calendarGrid");
-const monthName = document.getElementById("monthName");
+const monthLabel = document.getElementById("month");
+const eventsList = document.getElementById("eventsList");
 const yearSelect = document.getElementById("yearSelect");
-const eventList = document.getElementById("eventList");
-const prevMonthButton = document.getElementById("prevMonth");
-const nextMonthButton = document.getElementById("nextMonth");
-const prevYearButton = document.getElementById("prevYear");
-const nextYearButton = document.getElementById("nextYear");
 
 let events = [];
-let eventYears = [];
-let firstEventDateByYear = new Map();
+let currentDate = new Date();
 let selectedDate = new Date();
-let viewDate = new Date();
 
-function getUniqueEventYears() {
-    return [...new Set(events.map(event => event.date.getFullYear()))].sort((left, right) => left - right);
+const months = [
+  "Януари","Февруари","Март","Април","Май","Юни",
+  "Юли","Август","Септември","Октомври","Ноември","Декември"
+];
+
+function sameDayMonth(d1, d2) {
+  return d1.getDate() === d2.getDate() &&
+         d1.getMonth() === d2.getMonth();
 }
 
-function syncYearSelect() {
-    yearSelect.value = String(viewDate.getFullYear());
+fetch("content.json")
+  .then(res => res.json())
+  .then(data => {
+    events = data.events.map(e => ({
+      ...e,
+      date: new Date(e.date)
+    }));
+
+    populateYears();
+    renderCalendar();
+    showEvents();
+  });
+
+/* YEAR DROPDOWN */
+function populateYears() {
+  for (let y = 1500; y <= 2100; y++) {
+    const opt = document.createElement("option");
+    opt.value = y;
+    opt.textContent = y;
+    yearSelect.appendChild(opt);
+  }
+
+  yearSelect.value = currentDate.getFullYear();
 }
 
-function showDate(date, keepExactSelection = false) {
-    viewDate = new Date(date.getFullYear(), date.getMonth(), 1);
-    selectedDate = keepExactSelection ? new Date(date) : new Date(viewDate);
-    buildCalendar(viewDate);
-    renderEventsForSelectedDate();
-    syncYearSelect();
-}
+/* CALENDAR */
+function renderCalendar() {
+  calendarGrid.innerHTML = "";
 
-function loadEvents() {
-    return fetch("./content.json")
-        .then(response => response.json())
-        .then(data => {
-            events = data.events.map(event => ({
-                ...event,
-                date: new Date(event.date)
-            })).sort((left, right) => left.date - right.date);
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth();
 
-            eventYears = getUniqueEventYears();
-            firstEventDateByYear = new Map();
+  monthLabel.textContent = `${months[month]} ${year}`;
 
-            events.forEach(event => {
-                const year = event.date.getFullYear();
-                if (!firstEventDateByYear.has(year)) {
-                    firstEventDateByYear.set(year, new Date(event.date));
-                }
-            });
-        });
-}
+  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
+  const days = new Date(year, month + 1, 0).getDate();
 
-function getEventsForDate(date) {
-    const target = date.toDateString();
-    return events.filter(event => event.date.toDateString() === target);
-}
+  for (let i = 0; i < firstDay; i++) {
+    calendarGrid.innerHTML += `<div></div>`;
+  }
 
-function buildCalendar(date) {
-    calendarGrid.innerHTML = "";
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const firstDayOfMonth = new Date(year, month, 1);
-    const lastDayOfMonth = new Date(year, month + 1, 0);
-    const startWeekDay = (firstDayOfMonth.getDay() + 6) % 7;
+  for (let d = 1; d <= days; d++) {
+    const date = new Date(year, month, d);
 
-    monthName.textContent = monthNames[month];
+    const hasEvent = events.some(e =>
+      sameDayMonth(e.date, date)
+    );
 
-    const calendarStartDate = new Date(year, month, 1 - startWeekDay);
-    const totalCells = 42;
+    const div = document.createElement("div");
+    div.className = "day";
 
-    for (let i = 0; i < totalCells; i++) {
-        const cellDate = new Date(calendarStartDate);
-        cellDate.setDate(calendarStartDate.getDate() + i);
+    if (hasEvent) div.classList.add("event");
 
-        const dayCell = document.createElement("button");
-        dayCell.className = "day-cell";
-        if (cellDate.getMonth() !== month) {
-            dayCell.classList.add("outside");
-            dayCell.disabled = true;
-        }
-
-        const dayNumber = document.createElement("span");
-        dayNumber.className = "day-number";
-        dayNumber.textContent = cellDate.getDate();
-        dayCell.appendChild(dayNumber);
-
-        const dateEvents = getEventsForDate(cellDate);
-        if (dateEvents.length > 0) {
-            const marker = document.createElement("div");
-            marker.className = "event-marker";
-            dateEvents.slice(0, 2).forEach(() => {
-                const dot = document.createElement("span");
-                dot.className = "event-dot";
-                marker.appendChild(dot);
-            });
-            dayCell.appendChild(marker);
-        }
-
-        if (cellDate.toDateString() === selectedDate.toDateString()) {
-            dayCell.classList.add("active");
-        }
-
-        dayCell.addEventListener("click", () => {
-            selectedDate = cellDate;
-            showDate(cellDate, true);
-        });
-
-        calendarGrid.appendChild(dayCell);
-    }
-}
-
-function populateYearSelect() {
-    yearSelect.innerHTML = "";
-
-    eventYears.forEach(year => {
-        const option = document.createElement("option");
-        option.value = String(year);
-        option.textContent = String(year);
-        yearSelect.appendChild(option);
-    });
-}
-
-function renderEventsForSelectedDate() {
-    eventList.innerHTML = "";
-    const dateEvents = getEventsForDate(selectedDate);
-
-    const header = document.createElement("div");
-    header.className = "overview-card";
-    header.innerHTML = `<h3>${selectedDate.toLocaleDateString("bg-BG", { day: "numeric", month: "long", year: "numeric" })}</h3>`;
-    eventList.appendChild(header);
-
-    if (dateEvents.length === 0) {
-        const emptyNotice = document.createElement("p");
-        emptyNotice.textContent = "Няма записани събития за тази дата.";
-        emptyNotice.style.color = "#475569";
-        eventList.appendChild(emptyNotice);
-        return;
+    if (date.toDateString() === selectedDate.toDateString()) {
+      div.classList.add("active");
     }
 
-    dateEvents.forEach(event => {
-        const card = document.createElement("article");
-        card.className = "event-card";
-        card.innerHTML = `
-            <h3>${event.title}</h3>
-            <p><strong>Година:</strong> ${event.date.getFullYear()}</p>
-            <p>${event.description}</p>
-        `;
-        eventList.appendChild(card);
-    });
+    div.textContent = d;
+
+    div.onclick = () => {
+      selectedDate = date;
+      renderCalendar();
+      showEvents();
+    };
+
+    calendarGrid.appendChild(div);
+  }
 }
 
-function changeMonth(offset) {
-    showDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + offset, 1));
+/* EVENTS */
+function showEvents() {
+  eventsList.innerHTML = "";
+
+  const filtered = events.filter(e =>
+    sameDayMonth(e.date, selectedDate)
+  );
+
+  if (!filtered.length) {
+    eventsList.innerHTML = "<p>Няма събития</p>";
+    return;
+  }
+
+  filtered.forEach(e => {
+    eventsList.innerHTML += `
+      <div class="card">
+        <img src="${e.image}">
+        <h3>${icon(e.category)} ${e.title}</h3>
+        <p class="year">${e.date.getFullYear()}</p>
+        <p>${e.description}</p>
+      </div>
+    `;
+  });
 }
 
-function changeYear(offset) {
-    if (eventYears.length === 0) {
-        return;
-    }
-
-    const currentYear = viewDate.getFullYear();
-    const currentIndex = eventYears.indexOf(currentYear);
-    const fallbackIndex = eventYears.findIndex(year => year > currentYear);
-    const startingIndex = currentIndex >= 0 ? currentIndex : Math.max(0, fallbackIndex === -1 ? eventYears.length - 1 : fallbackIndex);
-    const nextIndex = Math.min(Math.max(startingIndex + offset, 0), eventYears.length - 1);
-    const nextYear = eventYears[nextIndex];
-    const targetDate = firstEventDateByYear.get(nextYear) ?? new Date(nextYear, 0, 1);
-
-    showDate(targetDate, true);
+function icon(type) {
+  if (type === "church") return "⛪";
+  if (type === "history") return "📜";
+  return "🏙️";
 }
 
-prevMonthButton.addEventListener("click", () => {
-    changeMonth(-1);
-});
+/* NAVIGATION */
+document.getElementById("prev").onclick = () => {
+  currentDate.setMonth(currentDate.getMonth() - 1);
+  renderCalendar();
+};
 
-nextMonthButton.addEventListener("click", () => {
-    changeMonth(1);
-});
+document.getElementById("next").onclick = () => {
+  currentDate.setMonth(currentDate.getMonth() + 1);
+  renderCalendar();
+};
 
-prevYearButton.addEventListener("click", () => {
-    changeYear(-1);
-});
+/* YEAR CHANGE */
+yearSelect.onchange = () => {
+  currentDate.setFullYear(Number(yearSelect.value));
+  renderCalendar();
+};
 
-nextYearButton.addEventListener("click", () => {
-    changeYear(1);
-});
+document.getElementById("prevYear").onclick = () => {
+  currentDate.setFullYear(currentDate.getFullYear() - 1);
+  yearSelect.value = currentDate.getFullYear();
+  renderCalendar();
+};
 
-yearSelect.addEventListener("change", event => {
-    const year = Number(event.target.value);
-    const targetDate = firstEventDateByYear.get(year) ?? new Date(year, 0, 1);
-    showDate(targetDate, true);
-});
-
-loadEvents()
-    .then(() => {
-        const initialDate = events[0]?.date ?? new Date();
-        populateYearSelect();
-        showDate(initialDate, true);
-    })
-    .catch(error => {
-        console.error("Неуспешно зареждане на събитията:", error);
-        eventList.innerHTML = "<p>Не може да се заредят събитията в момента.</p>";
-    });
+document.getElementById("nextYear").onclick = () => {
+  currentDate.setFullYear(currentDate.getFullYear() + 1);
+  yearSelect.value = currentDate.getFullYear();
+  renderCalendar();
+};
