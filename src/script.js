@@ -32,14 +32,23 @@ fetch("content.json")
 
 /* YEAR DROPDOWN */
 function populateYears() {
-  for (let y = 1500; y <= 2100; y++) {
+  // Populate the year dropdown with only years that have events
+  yearSelect.innerHTML = "";
+
+  const yearsSet = new Set(events.map(e => e.date.getFullYear()));
+  const years = Array.from(yearsSet).sort((a, b) => a - b);
+
+  years.forEach(y => {
     const opt = document.createElement("option");
     opt.value = y;
     opt.textContent = y;
     yearSelect.appendChild(opt);
-  }
+  });
 
-  yearSelect.value = currentDate.getFullYear();
+  // Choose a sensible default: current year if present, otherwise the latest event year
+  const defaultYear = years.includes(currentDate.getFullYear()) ? currentDate.getFullYear() : (years[years.length - 1] || currentDate.getFullYear());
+  yearSelect.value = defaultYear;
+  currentDate.setFullYear(Number(yearSelect.value));
 }
 
 /* CALENDAR */

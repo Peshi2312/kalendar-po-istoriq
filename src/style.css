@@ -1,15 +1,18 @@
 body {
     margin: 0;
     font-family: "Montserrat", sans-serif;
-    background: #f5f7fa;
+    background: linear-gradient(180deg, #f6f7fb 0%, #eef3f7 100%);
 }
 
 /* HERO */
 .hero {
-    background: linear-gradient(135deg, #c62828, #2e7d32);
+    background: linear-gradient(135deg, #8e24aa 0%, #3949ab 50%, #00bfa5 100%);
     color: white;
     text-align: center;
-    padding: 2rem;
+    padding: 2.2rem;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
 }
 
 /* LAYOUT */
@@ -22,9 +25,10 @@ body {
 
 /* CALENDAR */
 .calendar {
-    background: white;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
     padding: 1rem;
     border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(20,20,40,0.06);
 }
 
 .calendar-header {
@@ -37,11 +41,15 @@ body {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin: 10px 0;
+    margin: 10px 0 18px;
 }
 
 .year-control select {
-    padding: 5px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    box-shadow: 0 2px 6px rgba(30,30,60,0.03);
 }
 
 .grid {
@@ -51,32 +59,57 @@ body {
 }
 
 .day {
-    padding: 10px;
-    background: #eee;
+    padding: 12px 8px;
+    background: #f3f6fb;
     text-align: center;
     cursor: pointer;
-    border-radius: 6px;
+    border-radius: 8px;
+    transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    box-shadow: 0 2px 6px rgba(20,20,40,0.03);
 }
 
 .day.event {
-    background: #2e7d32;
+    background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
     color: white;
+    position: relative;
+}
+
+.day.event::after {
+    content: "";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    width: 10px;
+    height: 10px;
+    background: #ffd54f;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .day.active {
-    outline: 2px solid #c62828;
+    outline: 3px solid #ff8a65;
+    transform: translateY(-2px);
+}
+
+.day:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(30,30,60,0.08);
 }
 
 /* EVENTS */
 .events {
-    background: white;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfcff 100%);
     padding: 1rem;
     border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(20,20,40,0.04);
 }
 
 .card img {
-    width: 100%;
-    border-radius: 10px;
+    width: 100px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 12px;
 }
 
 .card h3 {
@@ -86,4 +119,24 @@ body {
 .year {
     font-weight: bold;
     color: #c62828;
+}
+
+.card {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+    margin-bottom: 10px;
+    box-shadow: 0 6px 14px rgba(30,30,60,0.04);
+}
+
+.card p {
+    margin: 6px 0 0 0;
+}
+
+@media (max-width: 800px) {
+    .layout { grid-template-columns: 1fr; }
+    .card img { display: none; }
 }
