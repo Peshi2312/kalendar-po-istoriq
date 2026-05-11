@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>История на Стара Загора</title>
+
+<title>Българска църковна история</title>
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
@@ -12,43 +13,21 @@
 <body>
 
 <header class="hero">
-    <h1>Историята на Стара Загора</h1>
-    <p>Интерактивен исторически календар</p>
+    <h1>Българско възраждане</h1>
+    <p>Исторически timeline</p>
 </header>
 
 <main class="layout">
 
 <section class="calendar">
 
-    <div class="calendar-header">
-        <button id="prev">‹</button>
-        <h2 id="month"></h2>
-        <button id="next">›</button>
-    </div>
-
-    <!-- YEAR CONTROL -->
-    <div class="year-control">
-        <button id="prevYear">«</button>
-        <select id="yearSelect"></select>
-        <button id="nextYear">»</button>
-    </div>
-
-    <div class="weekdays">
-        <div>Пон</div><div>Вт</div><div>Ср</div>
-        <div>Чт</div><div>Пет</div><div>Съб</div><div>Нед</div>
-    </div>
-
-    <div id="calendarGrid" class="grid"></div>
+    <div id="calendarOnlyEvents"></div>
 
 </section>
-
-<aside class="events">
-    <h2>Събития</h2>
-    <div id="eventsList"></div>
-</aside>
 
 </main>
 
 <script src="script.js"></script>
+
 </body>
 </html>

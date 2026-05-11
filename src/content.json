@@ -1,116 +1,81 @@
 {
   "events": [
     {
-      "date": "1651-01-01",
-      "title": "Стара Загора при Османската империя",
-      "description": "През XVII век Стара Загора (известна като Ески-Загра) съществува като град в Османската империя. Българската общност успява да съхрани своята вяра и традиции въпреки трудните исторически обстоятелства.",
-      "region": "Стара Загора",
+      "date": "1844-01-01",
+      "title": "Неофит Бозвели – идеолог на движението",
+      "category": "educationCulture",
+      "shortDescription": "Пламенен трибун и мъдър политик.",
+      "fullDescription": "Неофит Бозвели е определян като „пламенен трибун“, „безкомпромисен ръководител“ и „мъдър политик“. Той е идеологът на движението в неговия първи етап. Неговите програмни изложения от 1844 г. полагат основите на борбата за културно-духовна самостоятелност.",
+      "person": {
+        "name": "Неофит Бозвели",
+        "description": "Български духовник и просветител.",
+        "wiki": "https://bg.wikipedia.org/wiki/Неофит_Бозвели"
+      }
+    },
+
+    {
+      "date": "1860-04-03",
+      "title": "Великденската акция",
+      "category": "politics",
+      "shortDescription": "Отхвърляне на Патриаршията.",
+      "fullDescription": "Най-радикалният момент в историята на движението, при който в българския храм „Св. Стефан“ в Цариград е самоволно отхвърлена зависимостта от Патриаршията и е обявена самостоятелна българска йерархия.",
+      "person": {
+        "name": "Иларион Макариополски",
+        "description": "Лидер на радикалното течение.",
+        "wiki": "https://bg.wikipedia.org/wiki/Иларион_Макариополски"
+      }
+    },
+
+    {
+      "date": "1870-02-27",
+      "title": "Ферман за Българската екзархия",
+      "category": "politics",
+      "shortDescription": "Официално възстановяване на църквата.",
+      "fullDescription": "Официален акт на султана, с който след пет века е възстановена българската самостоятелна църква.",
+      "person": {
+        "name": "Д-р Стоян Чомаков",
+        "description": "Светски лидер на движението.",
+        "wiki": "https://bg.wikipedia.org/wiki/Стоян_Чомаков"
+      }
+    },
+
+    {
+      "date": "1872-01-06",
+      "title": "Богоявленска акция",
       "category": "church",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Stara_Zagora_old_city.jpg"
+      "shortDescription": "Решаващ тласък към Екзархията.",
+      "fullDescription": "Една от последните мащабни акции, която ускорява създаването на Българската екзархия.",
+      "person": {
+        "name": "Петко Р. Славейков",
+        "description": "Журналист и общественик.",
+        "wiki": "https://bg.wikipedia.org/wiki/Петко_Славейков"
+      }
     },
+
     {
-      "date": "1780-01-01",
-      "title": "Просвета и духовност в Стара Загора",
-      "description": "През XVIII век Стара Загора се утвърждава като център на духовния живот и Българското възраждане. Местни учители и духовници насърчават грамотността и националното съзнание сред българското население.",
-      "region": "Стара Загора",
+      "date": "1872-02-16",
+      "title": "Избор на първия Екзарх Антим I",
       "category": "church",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bulgaria_Stara_Zagora_04.jpg"
+      "shortDescription": "Първият български екзарх.",
+      "fullDescription": "Антим I става първият български екзарх. Неговото поведение на Константинополската конференция има огромно дипломатическо значение.",
+      "person": {
+        "name": "Антим I",
+        "description": "Първи български екзарх.",
+        "wiki": "https://bg.wikipedia.org/wiki/Антим_I"
+      }
     },
+
     {
-      "date": "1840-01-01",
-      "title": "Начало на храм „Св. Николай Чудотворец“",
-      "description": "През периода на Възраждането започва изграждането на храм „Св. Николай Чудотворец“, който се превръща в символ на духовността в региона. Православната вяра играе ключова роля за запазване на българската идентичност.",
-      "region": "Стара Загора",
-      "category": "church",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Bulgaria_Stara_Zagora_05.jpg/800px-Bulgaria_Stara_Zagora_05.jpg"
-    },
-    {
-      "date": "1860-06-15",
-      "title": "Борба за църковна независимост",
-      "description": "През 1860 г. започват процесите по създаване на Българската екзархия. Стара Загора активно участва в борбата за самостоятелна българска църква и духовна независимост.",
-      "region": "Стара Загора",
-      "category": "church",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Bulgarian_Exarchate_Icon.jpg"
-    },
-    {
-      "date": "1872-01-01",
-      "title": "Завършване на храм „Св. Николай Чудотворец“",
-      "description": "Храмът е завършен и осветен. Той се превръща в духовен център на града и символ на българската устойчивост и вяра.",
-      "region": "Стара Загора",
-      "category": "church",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Stara_Zagora_Bulgaria.jpg/800px-Stara_Zagora_Bulgaria.jpg"
-    },
-    {
-      "date": "1876-04-20",
-      "title": "Априлското въстание",
-      "description": "Жителите на Стара Загора участват активно в Априлското въстание срещу османската власт. Това е важен момент в борбата за национално освобождение.",
-      "region": "Стара Загора",
-      "category": "history",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/April_Uprising_Bulgaria_1876.jpg"
-    },
-    {
-      "date": "1877-12-03",
-      "title": "Освобождение на Стара Загора",
-      "description": "По време на Руско-турската война (1877–1878) Стара Загора е освободена от османска власт. Това поставя началото на нов етап в развитието на града.",
-      "region": "Стара Загора",
-      "category": "history",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/5/50/Russian_Soldier_Monument_Stara_Zagora.jpg"
-    },
-    {
-      "date": "1878-03-03",
-      "title": "Санстефански мирен договор",
-      "description": "С подписването на Санстефанския мирен договор Стара Загора става част от възстановеното българско княжество.",
-      "region": "Стара Загора",
-      "category": "history",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/d/d4/San_Stefano_Treaty_Map.jpg"
-    },
-    {
-      "date": "1885-09-06",
-      "title": "Съединението",
-      "description": "Стара Загора участва активно в процеса на Съединението на Княжество България и Източна Румелия.",
-      "region": "Стара Загора",
-      "category": "history",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Bulgarian_Reunification_1885.jpg"
-    },
-    {
-      "date": "1908-10-05",
-      "title": "Независимост на България",
-      "description": "След обявяването на независимостта Стара Загора се утвърждава като важен административен и културен център.",
-      "region": "Стара Загора",
-      "category": "history",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Bulgaria_Independence_1908.jpg"
-    },
-    {
-      "date": "1920-01-01",
-      "title": "Развитие на образованието",
-      "description": "През XX век градът се развива като образователен и културен център. Църквата и училищата играят важна социална роля.",
-      "region": "Стара Загора",
-      "category": "modern",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/8/87/Stara_Zagora_School_XX_Century.jpg"
-    },
-    {
-      "date": "1944-09-09",
-      "title": "Социалистически период",
-      "description": "След 1944 г. Стара Загора преминава през индустриализация и социални промени, като запазва културното си значение.",
-      "region": "Стара Загора",
-      "category": "modern",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Bulgaria_Socialist_Era.jpg"
-    },
-    {
-      "date": "1989-11-10",
-      "title": "Демократичен преход",
-      "description": "След 1989 г. градът навлиза в нов етап на развитие, с възраждане на духовния и обществен живот.",
-      "region": "Стара Загора",
-      "category": "modern",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Bulgaria_Democratic_Transition.jpg"
-    },
-    {
-      "date": "2007-01-01",
-      "title": "България в ЕС",
-      "description": "С присъединяването към ЕС Стара Загора се развива като модерен европейски град.",
-      "region": "Стара Загора",
-      "category": "modern",
-      "image": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Bulgaria_EU_2007.jpg"
+      "date": "1872-09-16",
+      "title": "Обявяване на схизмата",
+      "category": "politics",
+      "shortDescription": "Българската църква е обявена за схизматична.",
+      "fullDescription": "Цариградската патриаршия обявява българската църква за схизматична под предлог за „филетизъм“.",
+      "person": {
+        "name": "Църковно движение",
+        "description": "Борба за независима църква.",
+        "wiki": "https://bg.wikipedia.org/wiki/Българска_екзархия"
+      }
     }
   ]
 }

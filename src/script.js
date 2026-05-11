@@ -1,156 +1,85 @@
-const calendarGrid = document.getElementById("calendarGrid");
-const monthLabel = document.getElementById("month");
-const eventsList = document.getElementById("eventsList");
-const yearSelect = document.getElementById("yearSelect");
-
-let events = [];
-let currentDate = new Date();
-let selectedDate = new Date();
+const container = document.getElementById("calendarOnlyEvents");
 
 const months = [
   "Януари","Февруари","Март","Април","Май","Юни",
   "Юли","Август","Септември","Октомври","Ноември","Декември"
 ];
 
-function sameDayMonth(d1, d2) {
-  return d1.getDate() === d2.getDate() &&
-         d1.getMonth() === d2.getMonth();
-}
-
 fetch("content.json")
-  .then(res => res.json())
-  .then(data => {
-    events = data.events.map(e => ({
-      ...e,
-      date: new Date(e.date)
+.then(res => res.json())
+.then(data => {
+
+    const events = data.events.map(e => ({
+        ...e,
+        date: new Date(e.date)
     }));
 
-    populateYears();
-    renderCalendar();
-    showEvents();
-  });
+    render(events);
 
-/* YEAR DROPDOWN */
-function populateYears() {
-  // Populate the year dropdown with only years that have events
-  yearSelect.innerHTML = "";
+});
 
-  const yearsSet = new Set(events.map(e => e.date.getFullYear()));
-  const years = Array.from(yearsSet).sort((a, b) => a - b);
+function render(events){
 
-  years.forEach(y => {
-    const opt = document.createElement("option");
-    opt.value = y;
-    opt.textContent = y;
-    yearSelect.appendChild(opt);
-  });
+    container.innerHTML = "";
 
-  // Choose a sensible default: current year if present, otherwise the latest event year
-  const defaultYear = years.includes(currentDate.getFullYear()) ? currentDate.getFullYear() : (years[years.length - 1] || currentDate.getFullYear());
-  yearSelect.value = defaultYear;
-  currentDate.setFullYear(Number(yearSelect.value));
+    const grouped = {};
+
+    events.forEach(e => {
+
+        const key = `${e.date.getFullYear()}-${e.date.getMonth()}`;
+
+        if(!grouped[key]) grouped[key] = [];
+
+        grouped[key].push(e);
+    });
+
+    Object.keys(grouped)
+    .sort((a,b)=> new Date(a) - new Date(b))
+    .forEach(key => {
+
+        const [year, month] = key.split("-");
+
+        const block = document.createElement("div");
+
+        block.className = "month-block";
+
+        block.innerHTML = `
+            <div class="month-title">
+                ${months[month]} ${year}
+            </div>
+        `;
+
+        grouped[key].forEach(e => {
+
+            block.innerHTML += `
+                <div class="event-item ${e.category}">
+
+                    <div class="event-date">
+                        ${e.date.getDate()} ${months[e.date.getMonth()]} ${e.date.getFullYear()}
+                    </div>
+
+                    <div><b>${e.title}</b></div>
+
+                    <div>${e.shortDescription}</div>
+
+                    <details>
+                        <summary>Повече информация</summary>
+
+                        <p>${e.fullDescription}</p>
+
+                        <p><b>Личност:</b> ${e.person.name}</p>
+
+                        <p>${e.person.description}</p>
+
+                        <a href="${e.person.wiki}" target="_blank">
+                            Wikipedia
+                        </a>
+                    </details>
+
+                </div>
+            `;
+        });
+
+        container.appendChild(block);
+    });
 }
-
-/* CALENDAR */
-function renderCalendar() {
-  calendarGrid.innerHTML = "";
-
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-
-  monthLabel.textContent = `${months[month]} ${year}`;
-
-  const firstDay = (new Date(year, month, 1).getDay() + 6) % 7;
-  const days = new Date(year, month + 1, 0).getDate();
-
-  for (let i = 0; i < firstDay; i++) {
-    calendarGrid.innerHTML += `<div></div>`;
-  }
-
-  for (let d = 1; d <= days; d++) {
-    const date = new Date(year, month, d);
-
-    const hasEvent = events.some(e =>
-      sameDayMonth(e.date, date)
-    );
-
-    const div = document.createElement("div");
-    div.className = "day";
-
-    if (hasEvent) div.classList.add("event");
-
-    if (date.toDateString() === selectedDate.toDateString()) {
-      div.classList.add("active");
-    }
-
-    div.textContent = d;
-
-    div.onclick = () => {
-      selectedDate = date;
-      renderCalendar();
-      showEvents();
-    };
-
-    calendarGrid.appendChild(div);
-  }
-}
-
-/* EVENTS */
-function showEvents() {
-  eventsList.innerHTML = "";
-
-  const filtered = events.filter(e =>
-    sameDayMonth(e.date, selectedDate)
-  );
-
-  if (!filtered.length) {
-    eventsList.innerHTML = "<p>Няма събития</p>";
-    return;
-  }
-
-  filtered.forEach(e => {
-    eventsList.innerHTML += `
-      <div class="card">
-        <img src="${e.image}">
-        <h3>${icon(e.category)} ${e.title}</h3>
-        <p class="year">${e.date.getFullYear()}</p>
-        <p>${e.description}</p>
-      </div>
-    `;
-  });
-}
-
-function icon(type) {
-  if (type === "church") return "⛪";
-  if (type === "history") return "📜";
-  return "🏙️";
-}
-
-/* NAVIGATION */
-document.getElementById("prev").onclick = () => {
-  currentDate.setMonth(currentDate.getMonth() - 1);
-  renderCalendar();
-};
-
-document.getElementById("next").onclick = () => {
-  currentDate.setMonth(currentDate.getMonth() + 1);
-  renderCalendar();
-};
-
-/* YEAR CHANGE */
-yearSelect.onchange = () => {
-  currentDate.setFullYear(Number(yearSelect.value));
-  renderCalendar();
-};
-
-document.getElementById("prevYear").onclick = () => {
-  currentDate.setFullYear(currentDate.getFullYear() - 1);
-  yearSelect.value = currentDate.getFullYear();
-  renderCalendar();
-};
-
-document.getElementById("nextYear").onclick = () => {
-  currentDate.setFullYear(currentDate.getFullYear() + 1);
-  yearSelect.value = currentDate.getFullYear();
-  renderCalendar();
-};
