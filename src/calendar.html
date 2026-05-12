@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Календар</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="top-menu">
+    <a class="brand" href="index.html">Исторически портал</a>
+
+    <nav class="menu-links" aria-label="Основно меню">
+        <a href="index.html">Начало</a>
+        <a class="active" href="calendar.html">Календар</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- CONTROLS -->
+    <div class="controls">
+
+        <input id="search" placeholder="🔍 Търси събитие или личност">
+
+        <div class="filter-panel">
+            <div class="filter-title">Години</div>
+            <div class="chip-group" id="yearButtons"></div>
+        </div>
+
+        <div class="filter-panel">
+            <div class="filter-title">Месеци</div>
+            <div class="chip-group" id="monthButtons"></div>
+        </div>
+
+    </div>
+
+    <!-- CALENDAR -->
+    <section class="calendar">
+
+        <div class="calendar-header">
+
+            <button id="prev">‹</button>
+
+            <h1 id="month"></h1>
+
+            <button id="next">›</button>
+
+        </div>
+
+        <div class="weekdays">
+            <div>Пон</div><div>Вт</div><div>Ср</div>
+            <div>Чет</div><div>Пет</div><div>Съб</div><div>Нед</div>
+        </div>
+
+        <div class="days" id="days"></div>
+
+    </section>
+
+    <!-- INFO -->
+    <aside class="info" id="infoBox">
+        <h2>Избери събитие</h2>
+        <p>Кликни върху дата</p>
+    </aside>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -4,30 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Българска църковна история</title>
+<title>Исторически портал</title>
 
 <link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="home">
 
-<header class="hero">
-    <h1>Българско възраждане</h1>
-    <p>Исторически timeline</p>
+<header class="top-menu">
+    <a class="brand" href="index.html">Исторически портал</a>
+
+    <nav class="menu-links" aria-label="Начално меню">
+        <a class="active" href="index.html">Начало</a>
+        <a href="calendar.html">Календар</a>
+    </nav>
 </header>
 
-<main class="layout">
+<div class="hero">
 
-<section class="calendar">
+    <h1>📜 История на България</h1>
 
-    <div id="calendarOnlyEvents"></div>
+    <p>Интерактивен исторически календар</p>
 
-</section>
+    <a class="btn" href="calendar.html">
+        Влез в календара →
+    </a>
 
-</main>
-
-<script src="script.js"></script>
+</div>
 
 </body>
 </html>
