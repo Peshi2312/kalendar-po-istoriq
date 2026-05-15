@@ -1,159 +1,284 @@
+// =========================
+// SCRIPT.JS
+// =========================
+
 const daysContainer = document.getElementById("days");
+
 const monthLabel = document.getElementById("month");
+
 const infoBox = document.getElementById("infoBox");
 
 const search = document.getElementById("search");
-const yearButtons = document.getElementById("yearButtons");
-const monthButtons = document.getElementById("monthButtons");
-const prevButton = document.getElementById("prev");
-const nextButton = document.getElementById("next");
 
-let currentDate = new Date(1872,1,1);
-let events = [];
-let filteredEvents = [];
-let activeYears = [];
+const yearButtons = document.getElementById("yearButtons");
+
+const monthButtons = document.getElementById("monthButtons");
+
+const prevBtn = document.getElementById("prev");
+
+const nextBtn = document.getElementById("next");
 
 const months = [
-"Януари","Февруари","Март","Април","Май","Юни",
-"Юли","Август","Септември","Октомври","Ноември","Декември"
+"Януари",
+"Февруари",
+"Март",
+"Април",
+"Май",
+"Юни",
+"Юли",
+"Август",
+"Септември",
+"Октомври",
+"Ноември",
+"Декември"
 ];
 
-/* LOAD JSON */
-fetch("./content.json")
-.then(r=>r.json())
-.then(data=>{
+let currentDate = new Date(1872,1);
 
-    events = data.events.map(e=>({
-        ...e,
-        category:e.category === "educationCulture" ? "education" : e.category,
-        date:new Date(e.date)
+let events = [];
+
+let filteredEvents = [];
+
+fetch("./content.json")
+
+.then(res => res.json())
+
+.then(data => {
+
+    events = data.events.map(event => ({
+        ...event,
+        date:new Date(event.date)
     }));
 
     filteredEvents = events;
 
-    activeYears = [...new Set(events.map(e=>e.date.getFullYear()))].sort((a,b)=>a-b);
+    renderYearButtons();
 
-    if(!activeYears.includes(currentDate.getFullYear())){
-        currentDate = new Date(activeYears[0], currentDate.getMonth(), 1);
-    }
+    renderMonthButtons();
 
-    renderFilters();
     renderCalendar();
 });
 
-/* FILTERS */
+/* YEAR BUTTONS */
 
-function renderFilters(){
+function renderYearButtons(){
 
-    if(yearButtons){
-        yearButtons.innerHTML = activeYears.map(year=>`
-            <button class="chip ${year===currentDate.getFullYear() ? "active" : ""}" data-year="${year}">${year}</button>
-        `).join("");
+    const years = [
+        ...new Set(
+            events.map(e => e.date.getFullYear())
+        )
+    ];
 
-        yearButtons.querySelectorAll("button[data-year]").forEach(button=>{
-            button.onclick = () => {
-                currentDate = new Date(Number(button.dataset.year), currentDate.getMonth(), 1);
-                renderFilters();
-                renderCalendar();
-            };
-        });
-    }
+    yearButtons.innerHTML = "";
 
-    if(monthButtons){
-        monthButtons.innerHTML = months.map((monthName, index)=>`
-            <button class="chip ${index===currentDate.getMonth() ? "active" : ""}" data-month="${index}">${monthName}</button>
-        `).join("");
+    years.forEach(year => {
 
-        monthButtons.querySelectorAll("button[data-month]").forEach(button=>{
-            button.onclick = () => {
-                currentDate = new Date(currentDate.getFullYear(), Number(button.dataset.month), 1);
-                renderFilters();
-                renderCalendar();
-            };
-        });
-    }
+        const btn = document.createElement("button");
+
+        btn.className = "chip";
+
+        if(year === currentDate.getFullYear()){
+
+            btn.classList.add("active");
+        }
+
+        btn.textContent = year;
+
+        btn.onclick = () => {
+
+            currentDate = new Date(
+                year,
+                currentDate.getMonth(),
+                1
+            );
+
+            renderYearButtons();
+
+            renderCalendar();
+        };
+
+        yearButtons.appendChild(btn);
+    });
 }
 
-function applyFilters(){
+/* MONTH BUTTONS */
 
-    let result = [...events];
+function renderMonthButtons(){
 
-    const q = search.value.toLowerCase().trim();
+    monthButtons.innerHTML = "";
 
-    if(q){
-        result = result.filter(e=>
-            e.title.toLowerCase().includes(q) ||
-            e.person.toLowerCase().includes(q) ||
-            e.description.toLowerCase().includes(q)
+    months.forEach((month,index) => {
+
+        const btn = document.createElement("button");
+
+        btn.className = "chip";
+
+        if(index === currentDate.getMonth()){
+
+            btn.classList.add("active");
+        }
+
+        btn.textContent = month;
+
+        btn.onclick = () => {
+
+            currentDate = new Date(
+                currentDate.getFullYear(),
+                index,
+                1
+            );
+
+            renderMonthButtons();
+
+            renderCalendar();
+        };
+
+        monthButtons.appendChild(btn);
+    });
+}
+
+/* SEARCH */
+
+search.addEventListener("input", () => {
+
+    const value = search.value.toLowerCase();
+
+    filteredEvents = events.filter(event => {
+
+        return (
+
+            event.title.toLowerCase().includes(value)
+
+            ||
+
+            event.person.toLowerCase().includes(value)
+
+            ||
+
+            event.description.toLowerCase().includes(value)
         );
-    }
+    });
 
-    filteredEvents = result;
     renderCalendar();
-}
-
-search.oninput = applyFilters;
+});
 
 /* CALENDAR */
 
 function renderCalendar(){
 
-    daysContainer.innerHTML="";
+    daysContainer.innerHTML = "";
 
     const year = currentDate.getFullYear();
+
     const month = currentDate.getMonth();
 
-    monthLabel.textContent = `${months[month]} ${year}`;
+    monthLabel.textContent =
+        `${months[month]} ${year}`;
 
-    const firstDay = (new Date(year,month,1).getDay()+6)%7;
-    const days = new Date(year,month+1,0).getDate();
+    const firstDay =
+        (new Date(year,month,1).getDay()+6)%7;
+
+    const totalDays =
+        new Date(year,month+1,0).getDate();
 
     for(let i=0;i<firstDay;i++){
-        daysContainer.innerHTML += `<div></div>`;
+
+        const empty = document.createElement("div");
+
+        empty.className = "day";
+
+        empty.setAttribute("aria-disabled","true");
+
+        daysContainer.appendChild(empty);
     }
 
-    for(let d=1;d<=days;d++){
+    for(let day=1;day<=totalDays;day++){
 
         const div = document.createElement("div");
-        div.className="day";
 
-        const event = filteredEvents.find(e=>
-            e.date.getFullYear()==year &&
-            e.date.getMonth()==month &&
-            e.date.getDate()==d
-        );
+        div.className = "day";
+
+        const number = document.createElement("b");
+
+        number.textContent = day;
+
+        div.appendChild(number);
+
+        const key =
+        `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+        const event =
+            filteredEvents.find(
+                e => formatDate(e.date) === key
+            );
 
         if(event){
-            div.classList.add(event.category);
-            div.innerHTML = `<b>${d}</b><div class="event-title">${event.title}</div>`;
 
-            div.onclick=()=>{
-                infoBox.innerHTML=`
+            div.classList.add(event.category);
+
+            const title = document.createElement("div");
+
+            title.className = "event-title";
+
+            title.textContent = event.title;
+
+            div.appendChild(title);
+
+            div.onclick = () => {
+
+                infoBox.innerHTML = `
+
                     <h2>${event.title}</h2>
+
                     <p>${event.description}</p>
+
                     <hr>
-                    <p><b>${event.person}</b></p>
-                    ${event.wiki ? `<a href="${event.wiki}" target="_blank" rel="noopener noreferrer">Виж в Wikipedia</a>` : ""}
+
+                    <p>
+                        <b>${event.person}</b>
+                    </p>
+
+                    <a href="${event.wiki}" target="_blank">
+                        Wikipedia
+                    </a>
+
                 `;
             };
-        } else {
-            div.innerHTML=`<b>${d}</b>`;
         }
 
         daysContainer.appendChild(div);
     }
 }
 
-/* NAV */
+function formatDate(date){
 
-prevButton.onclick=()=>{
-    currentDate.setMonth(currentDate.getMonth()-1);
-    renderFilters();
+    return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`;
+}
+
+/* NAVIGATION */
+
+prevBtn.onclick = () => {
+
+    currentDate.setMonth(
+        currentDate.getMonth()-1
+    );
+
+    renderMonthButtons();
+
+    renderYearButtons();
+
     renderCalendar();
 };
 
-nextButton.onclick=()=>{
-    currentDate.setMonth(currentDate.getMonth()+1);
-    renderFilters();
+nextBtn.onclick = () => {
+
+    currentDate.setMonth(
+        currentDate.getMonth()+1
+    );
+
+    renderMonthButtons();
+
+    renderYearButtons();
+
     renderCalendar();
 };
