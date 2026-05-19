@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Историческо събитие</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header class="top-menu">
+    <a class="brand" href="index.html">Исторически портал</a>
+    <nav class="menu-links">
+        <a href="index.html">Начало</a>
+        <a href="calendar.html">Календар</a>
+    </nav>
+</header>
+
+<main class="event-page">
+    <article class="event-card">
+        <img id="eventImage" class="event-image" src="" alt="">
+
+        <div class="event-content">
+            <div class="event-category" id="eventCategory"></div>
+            <h1 id="eventTitle"></h1>
+            <div class="event-date" id="eventDate"></div>
+            <p id="eventDescription"></p>
+
+            <div class="person-box">
+                <h3>Основна личност</h3>
+                <p id="eventPerson"></p>
+            </div>
+
+            <div class="event-actions">
+                <a class="hero-btn" href="calendar.html">← Назад към календара</a>
+            </div>
+        </div>
+    </article>
+</main>
+
+<script src="event.js"></script>
+
+</body>
+</html>

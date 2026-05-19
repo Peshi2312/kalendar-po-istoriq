@@ -33,11 +33,32 @@ const months = [
 "Декември"
 ];
 
-let currentDate = new Date(1872,1);
+let currentDate = new Date(1872,0,1);
 
 let events = [];
 
 let filteredEvents = [];
+
+function getEventLink(index) {
+    return `event.html?id=${index}`;
+}
+
+function renderInfoBox(event, index) {
+    const wikiLink = event.wiki
+        ? `<a class="info-link" href="${event.wiki}" target="_blank" rel="noopener noreferrer">Виж в Wikipedia</a>`
+        : "";
+
+    infoBox.innerHTML = `
+        <h2>${event.title}</h2>
+        <p>${event.description}</p>
+        <hr>
+        <p><b>${event.person}</b></p>
+        <div class="info-actions">
+            <a class="info-link" href="${getEventLink(index)}">Виж повече</a>
+            ${wikiLink}
+        </div>
+    `;
+}
 
 fetch("./content.json")
 
@@ -67,7 +88,7 @@ function renderYearButtons(){
         ...new Set(
             events.map(e => e.date.getFullYear())
         )
-    ];
+    ].sort((a, b) => a - b);
 
     yearButtons.innerHTML = "";
 
@@ -225,24 +246,8 @@ function renderCalendar(){
             div.appendChild(title);
 
             div.onclick = () => {
-
-                infoBox.innerHTML = `
-
-                    <h2>${event.title}</h2>
-
-                    <p>${event.description}</p>
-
-                    <hr>
-
-                    <p>
-                        <b>${event.person}</b>
-                    </p>
-
-                    <a href="${event.wiki}" target="_blank">
-                        Wikipedia
-                    </a>
-
-                `;
+                const eventIndex = events.indexOf(event);
+                renderInfoBox(event, eventIndex);
             };
         }
 
